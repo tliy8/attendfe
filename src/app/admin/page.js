@@ -82,6 +82,12 @@ export default function Admin() {
             >
               Add User
             </button>
+            <button
+            onClick={() => router.push("/allattendance")}
+            className="mt-2 w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+            >
+          View All Attendance
+        </button>
           </div>
         )}
       </div>
