@@ -1,30 +1,34 @@
 "use client";
+import React, { Suspense, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
-export default function AttendancePage() {
+function AttendancePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const code = searchParams.get("code"); // Extracts the code from the URL
+
   const [name, setName] = useState("");
   const [id, setId] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/mark-attendance` ,{
+    const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/mark-attendance`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, name, code }),
     });
 
     if (res.ok) {
-      router.push(`/success?name=${encodeURIComponent(name)}&code=${encodeURIComponent(code)}`);
+      router.push(
+        `/success?name=${encodeURIComponent(name)}&code=${encodeURIComponent(
+          code
+        )}`
+      );
     } else {
       alert("❌ Error marking attendance.");
     }
   };
-
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
@@ -32,12 +36,13 @@ export default function AttendancePage() {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Mark Attendance
         </h2>
-        <p className="text-center text-gray-600 mb-6">
-          Today's Date: {code}
-        </p>
+        <p className="text-center text-gray-600 mb-6">Today's Code: {code}</p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="id" className="block text-lg font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="id"
+              className="block text-lg font-medium text-gray-700 mb-1"
+            >
               Your ID
             </label>
             <input
@@ -51,7 +56,10 @@ export default function AttendancePage() {
             />
           </div>
           <div>
-            <label htmlFor="name" className="block text-lg font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-lg font-medium text-gray-700 mb-1"
+            >
               Your Name
             </label>
             <input
@@ -60,7 +68,6 @@ export default function AttendancePage() {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value.toUpperCase())}
-
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
@@ -74,5 +81,13 @@ export default function AttendancePage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function AttendancePage() {
+  return (
+    <Suspense fallback={<div>Loading attendance page...</div>}>
+      <AttendancePageContent />
+    </Suspense>
   );
 }
