@@ -36,7 +36,7 @@ export default function AddUser() {
     }));
   
     try {
-      const response = await fetch("http://localhost:5000/add-user", {
+      const response = await fetch(`${process.env.link}/add-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

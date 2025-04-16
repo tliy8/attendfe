@@ -12,7 +12,7 @@ export default function Admin() {
 
   const login = async () => {
     try {
-      const { data } = await axios.post("http://localhost:5000/admin/login", { username, password });
+      const { data } = await axios.post(`${process.env.link}/admin/login`, { username, password });
       setToken(data.token);
       fetchAbsentees();
     } catch (error) {
@@ -23,7 +23,7 @@ export default function Admin() {
 
   const fetchAbsentees = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/absentees");
+      const { data } = await axios.get(`${process.env.link}/absentees`);
       setAbsentees(data);
     } catch (error) {
       console.error("Error fetching absentees:", error);
