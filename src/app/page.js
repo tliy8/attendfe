@@ -16,7 +16,8 @@ export default function Home() {
   // Get Daily QR Code from backend
   const fetchQRCode = async () => {
     try {
-      const { data } = await axios.get(`${process.env.link}/generate-qr`);
+      console.log(`${process.env.NEXT_PUBLIC_LINK}/absentees`);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_LINK}/generate-qr`);
       setQrCode(data.qrCode);
     } catch (error) {
       console.error("Error fetching QR code:", error);
@@ -26,7 +27,7 @@ export default function Home() {
   // Get Absentees List from backend
   const fetchAbsentees = async () => {
     try {
-      const { data } = await axios.get(`${process.env.link}/absentees`);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_LINK}/absentees`);
       setAbsentees(data);
     } catch (error) {
       console.error("Error fetching absentees:", error);

@@ -12,7 +12,7 @@ export default function AttendancePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${process.env.link}/mark-attendance` {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_LINK}/mark-attendance` ,{
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, name, code }),

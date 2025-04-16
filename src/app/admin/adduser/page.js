@@ -36,7 +36,7 @@ export default function AddUser() {
     }));
   
     try {
-      const response = await fetch(`${process.env.link}/add-user`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}/add-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
