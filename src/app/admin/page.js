@@ -30,6 +30,7 @@ export default function Admin() {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4">
       <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-md rounded-xl shadow-lg p-8 w-full max-w-md text-center">
@@ -68,6 +69,7 @@ export default function Admin() {
                   <div key={user.id} className="border border-gray-300 rounded-lg p-4 shadow-md bg-gray-100">
                     <p className="text-lg font-semibold text-gray-800">ID: {user.id}</p>
                     <p className="text-gray-600">Name: {user.name}</p>
+                    <p className="text-gray-600">Year: {user.year}</p>
                   </div>
                 ))}
               </div>
@@ -83,10 +85,16 @@ export default function Admin() {
               Add User
             </button>
             <button
-            onClick={() => router.push("/allattendance")}
+            onClick={() => router.push("admin/allattendance")}
             className="mt-2 w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
             >
           View All Attendance
+        </button>
+        <button
+            onClick={() => router.push("admin/enduser")}
+            className="mt-2 w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition"
+            >
+          Edit and delete User
         </button>
           </div>
         )}
