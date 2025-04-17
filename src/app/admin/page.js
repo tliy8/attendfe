@@ -69,7 +69,6 @@ export default function Admin() {
                   <div key={user.id} className="border border-gray-300 rounded-lg p-4 shadow-md bg-gray-100">
                     <p className="text-lg font-semibold text-gray-800">ID: {user.id}</p>
                     <p className="text-gray-600">Name: {user.name}</p>
-                    <p className="text-gray-600">Year: {user.year}</p>
                   </div>
                 ))}
               </div>

@@ -28,14 +28,14 @@ export default function UsersPage() {
     if (!confirm("Are you sure you want to delete this user?")) return;
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_LINK}/user/${id}`);
-      setUsers(users.filter(user => user._id !== id));
+      setUsers(users.filter(user => user.id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);
     }
   };
 
   const startEdit = (user) => {
-    setEditingId(user._id);
+    setEditingId(user.id);
     setEditName(user.name);
     setEditYear(user.year);
   };
@@ -56,7 +56,7 @@ export default function UsersPage() {
           year: editYear,
         }
       );
-      setUsers(users.map(u => (u._id === id ? updatedUser : u)));
+      setUsers(users.map(u => (u.id === id ? updatedUser : u)));
       cancelEdit();
     } catch (error) {
       console.error("Error updating user:", error);
@@ -86,11 +86,11 @@ export default function UsersPage() {
               </thead>
               <tbody>
                 {users.map((user, index) => (
-                  <tr key={user._id} className="hover:bg-gray-100 transition duration-200 text-black">
+                  <tr key={user.id} className="hover:bg-gray-100 transition duration-200 text-black">
                     <td className="py-2 px-4 border text-center">{index + 1}</td>
-                    <td className="py-2 px-4 border">{user._id}</td>
+                    <td className="py-2 px-4 border">{user.id}</td>
                     <td className="py-2 px-4 border">
-                      {editingId === user._id ? (
+                      {editingId === user.id ? (
                         <input
                           type="text"
                           value={editName}
@@ -102,13 +102,13 @@ export default function UsersPage() {
                       )}
                     </td>
                     <td className="py-2 px-4 border">
-                      {editingId === user._id ? (
+                      {editingId === user.id ? (
                         <div className="flex space-x-4">
                           {['Y1', 'Y2', 'Y3'].map(opt => (
                             <label key={opt} className="inline-flex items-center space-x-1 text-black">
                               <input
                                 type="radio"
-                                name={`year-${user._id}`}
+                                name={`year-${user.id}`}
                                 value={opt}
                                 checked={editYear === opt}
                                 onChange={() => setEditYear(opt)}
@@ -123,10 +123,10 @@ export default function UsersPage() {
                       )}
                     </td>
                     <td className="py-2 px-4 border text-center space-x-2">
-                      {editingId === user._id ? (
+                      {editingId === user.id ? (
                         <>
                           <button
-                            onClick={() => saveEdit(user._id)}
+                            onClick={() => saveEdit(user.id)}
                             className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
                           >
                             Save
@@ -147,7 +147,7 @@ export default function UsersPage() {
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDelete(user._id)}
+                            onClick={() => handleDelete(user.id)}
                             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                           >
                             Delete
