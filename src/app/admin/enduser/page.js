@@ -12,7 +12,7 @@ export default function UsersPage() {
   const fetchUsers = async () => {
     try {
       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_LINK}/user`);
-      setUsers(data);
+      setUsers(data.users);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
