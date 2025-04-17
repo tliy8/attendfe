@@ -64,20 +64,21 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">User List</h1>
+    <div className="min-h-screen bg-gray-100 p-6 text-black">
+      <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center text-black">User List</h1>
 
         {loading ? (
-          <p className="text-center text-gray-500">Loading users...</p>
+          <p className="text-center text-gray-600">Loading users...</p>
         ) : users.length === 0 ? (
-          <p className="text-center text-gray-500">No users found.</p>
+          <p className="text-center text-gray-600">No users found.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-300">
+            <table className="min-w-full border border-gray-300 text-black">
               <thead>
-                <tr className="bg-gray-200 text-gray-700">
+                <tr className="bg-gray-200 text-black">
                   <th className="py-2 px-4 border">No</th>
+                  <th className="py-2 px-4 border">User ID</th>
                   <th className="py-2 px-4 border">Name</th>
                   <th className="py-2 px-4 border">Year</th>
                   <th className="py-2 px-4 border">Actions</th>
@@ -85,15 +86,16 @@ export default function UsersPage() {
               </thead>
               <tbody>
                 {users.map((user, index) => (
-                  <tr key={user._id} className="hover:bg-gray-100 transition duration-200">
+                  <tr key={user._id} className="hover:bg-gray-100 transition duration-200 text-black">
                     <td className="py-2 px-4 border text-center">{index + 1}</td>
+                    <td className="py-2 px-4 border">{user._id}</td>
                     <td className="py-2 px-4 border">
                       {editingId === user._id ? (
                         <input
                           type="text"
                           value={editName}
                           onChange={(e) => setEditName(e.target.value.toUpperCase())}
-                          className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-2 py-1 border border-black rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
                         />
                       ) : (
                         user.name
@@ -103,16 +105,16 @@ export default function UsersPage() {
                       {editingId === user._id ? (
                         <div className="flex space-x-4">
                           {['Y1', 'Y2', 'Y3'].map(opt => (
-                            <label key={opt} className="inline-flex items-center space-x-1">
+                            <label key={opt} className="inline-flex items-center space-x-1 text-black">
                               <input
                                 type="radio"
-                                name="year"
+                                name={`year-${user._id}`}
                                 value={opt}
                                 checked={editYear === opt}
                                 onChange={() => setEditYear(opt)}
                                 className="form-radio h-4 w-4 text-blue-600"
                               />
-                              <span className="text-gray-800">{opt}</span>
+                              <span>{opt}</span>
                             </label>
                           ))}
                         </div>
