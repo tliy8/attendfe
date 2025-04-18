@@ -8,6 +8,7 @@ export default function UsersPage() {
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState("");
   const [editYear, setEditYear] = useState("");
+  const [filterYear, setFilterYear] = useState("ALL");
 
   const fetchUsers = async () => {
     try {
@@ -28,7 +29,7 @@ export default function UsersPage() {
     if (!confirm("Are you sure you want to delete this user?")) return;
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_LINK}/user/${id}`);
-      setUsers(users.filter(user => user.id !== id));
+      setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -56,22 +57,47 @@ export default function UsersPage() {
           year: editYear,
         }
       );
-      setUsers(users.map(u => (u.id === id ? updatedUser : u)));
+      setUsers(users.map((u) => (u.id === id ? updatedUser : u)));
       cancelEdit();
     } catch (error) {
       console.error("Error updating user:", error);
     }
   };
 
+  // Filter users by year
+  const filteredUsers =
+    filterYear === "ALL"
+      ? users
+      : users.filter((user) => user.year === filterYear);
+
   return (
     <div className="min-h-screen bg-gray-100 p-6 text-black">
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6">
         <h1 className="text-2xl font-bold mb-6 text-center text-black">User List</h1>
 
+        {/* Year Filter */}
+        <div className="flex justify-center space-x-4 mb-4">
+          {["ALL", "Y1", "Y2", "Y3"].map((opt) => (
+            <label key={opt} className="inline-flex items-center space-x-2 text-black">
+              <input
+                type="radio"
+                name="filter-year"
+                value={opt}
+                checked={filterYear === opt}
+                onChange={() => setFilterYear(opt)}
+                className="form-radio h-4 w-4 text-blue-500"
+              />
+              <span>{opt}</span>
+            </label>
+          ))}
+        </div>
+
         {loading ? (
           <p className="text-center text-gray-600">Loading users...</p>
-        ) : users.length === 0 ? (
-          <p className="text-center text-gray-600">No users found.</p>
+        ) : filteredUsers.length === 0 ? (
+          <p className="text-center text-gray-600">
+            No users found for {filterYear === "ALL" ? "any year" : filterYear}.
+          </p>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full border border-gray-300 text-black">
@@ -85,8 +111,11 @@ export default function UsersPage() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
-                  <tr key={user.id} className="hover:bg-gray-100 transition duration-200 text-black">
+                {filteredUsers.map((user, index) => (
+                  <tr
+                    key={user.id}
+                    className="hover:bg-gray-100 transition duration-200 text-black"
+                  >
                     <td className="py-2 px-4 border text-center">{index + 1}</td>
                     <td className="py-2 px-4 border">{user.id}</td>
                     <td className="py-2 px-4 border">
@@ -104,8 +133,11 @@ export default function UsersPage() {
                     <td className="py-2 px-4 border">
                       {editingId === user.id ? (
                         <div className="flex space-x-4">
-                          {['Y1', 'Y2', 'Y3'].map(opt => (
-                            <label key={opt} className="inline-flex items-center space-x-1 text-black">
+                          {["Y1", "Y2", "Y3"].map((opt) => (
+                            <label
+                              key={opt}
+                              className="inline-flex items-center space-x-1 text-black"
+                            >
                               <input
                                 type="radio"
                                 name={`year-${user.id}`}
